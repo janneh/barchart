@@ -1,0 +1,35 @@
+{
+  "name": "barchart",
+  "version": "1.0.0",
+  "description": "Playing around with barcharts",
+  "scripts": {
+    "start": "node server",
+    "lint": "eslint src"
+  },
+  "author": "janneh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/janneh/barchart.git"
+  },
+  "devDependencies": {
+    "babel-core": "latest",
+    "babel-eslint": "latest",
+    "babel-loader": "latest",
+    "babel-preset-es2015": "latest",
+    "babel-preset-react": "latest",
+    "babel-preset-stage-0": "latest",
+    "eslint": "latest",
+    "eslint-plugin-react": "latest",
+    "react-hot-loader": "latest",
+    "webpack": "latest",
+    "webpack-dev-server": "latest"
+  },
+  "dependencies": {
+    "d3": "^3.5.16",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "babel": {
+    "presets": ["es2015", "stage-0", "react"]
+  }
+}

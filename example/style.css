@@ -1,0 +1,21 @@
+#app {
+  padding: 50px;
+}
+
+.bar {
+  fill: #1ba0e3;
+}
+
+.base-bar {
+  fill: #2bb0f3;
+}
+
+.axis {
+  fill: #9e9e9e;
+}
+
+.axis path {
+  fill: none;
+  stroke: #9e9e9e;
+  stroke-width: 1px;
+}
