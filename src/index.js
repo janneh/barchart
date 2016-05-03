@@ -21,6 +21,7 @@ const defaults = {
 export default function barchart(options) {
   const { target, frame, margin, data } = Object.assign(defaults, options)
   const { width, height } = chartSize(frame, margin)
+  const barPadding = 0.03 * width
 
   // Create the chart
   const chart = d3.select(target).append('svg')
@@ -28,6 +29,14 @@ export default function barchart(options) {
       .attr('height', frame.height)
     .append('g')
       .attr('transform', `translate(${margin.left} ${margin.top})`)
+
+  chart.append('clipPath')
+      .attr('id', 'graph-area-clip')
+    .append('rect')
+      .attr('x', 0)
+      .attr('width', width)
+      .attr('y', 0)
+      .attr('height', height)
 
   const x = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1)
@@ -76,26 +85,27 @@ export default function barchart(options) {
     chart.select('.y.axis')
       .transition().ease('linear')
       .call(yAxis)
+      .attr('transform', `translate(0 ${x.rangeBand() - barPadding})`)
   }
 
   function renderBars(data) {
+    const borderRadius = (x.rangeBand() - barPadding) / 2
+    const barWidth = x.rangeBand() - barPadding
+
     const bars = chart.selectAll('.bar')
       .data(data, (d) => d.letter)
 
     bars.enter().append('rect')
       .attr('class', 'bar')
 
-    const padding = 0.03 * width
-    const borderRadius = (x.rangeBand() - padding) / 2
-    const barWidth = x.rangeBand() - padding
-
     bars.transition().ease('linear')
-      .attr('x', function(d) { return x(d.letter) + padding / 2 })
+      .attr('x', function(d) { return x(d.letter) + barPadding / 2 })
       .attr('width', barWidth)
-      .attr('y', function(d) { return y(d.frequency) })
+      .attr('y', function(d) { return y(d.frequency) + borderRadius })
       .attr('height', function(d) { return height - y(d.frequency) })
       .attr('rx', borderRadius)
       .attr('ry', borderRadius)
+      .attr('clip-path', 'url(#graph-area-clip)')
 
     bars.exit().remove()
   }
