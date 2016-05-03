@@ -85,7 +85,6 @@ export default function barchart(options) {
     chart.select('.y.axis')
       .transition().ease('linear')
       .call(yAxis)
-      .attr('transform', `translate(0 ${x.rangeBand() - barPadding})`)
   }
 
   function renderBars(data) {
