@@ -2,14 +2,18 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import barchart from '../src/index'
 
-const randomData = _ => {
-  const data = []
+let selectionNumber = 0
 
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter => {
-    if (Math.random() > .2) {
-      data.push({ letter: letter, frequency: (Math.random() * .1) })
-    }
+const randomData = _ => {
+  let data = []
+
+  'ABCDEFGHIJKLMNOPQRSTUVWX'.split('').forEach(letter => {
+    data.push({ letter: letter, frequency: (Math.random() * .1) })
   })
+
+  const startIndex = selectionNumber % 3 * 8
+  data = data.slice(startIndex, startIndex + 8)
+  selectionNumber++
 
   return data
 }

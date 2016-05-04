@@ -21,7 +21,7 @@ const defaults = {
 export default function barchart(options) {
   const { target, frame, margin, data } = Object.assign(defaults, options)
   const { width, height } = chartSize(frame, margin)
-  const barPadding = 0.03 * width
+  const barPadding = 0.1 * width
 
   // Create the chart
   const chart = d3.select(target).append('svg')
