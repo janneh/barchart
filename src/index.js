@@ -88,9 +88,6 @@ export default function barchart(options) {
   }
 
   function renderBars(data) {
-    const borderRadius = (x.rangeBand() - barPadding) / 2
-    const barWidth = x.rangeBand() - barPadding
-
     const bars = chart.selectAll('.bar')
       .data(data, (d) => d.letter)
 
@@ -98,6 +95,16 @@ export default function barchart(options) {
       .attr('class', 'bar')
 
     bars.transition().ease('linear')
+      .call(bars)
+
+    bars.exit().remove()
+  }
+
+  function bars() {
+    const borderRadius = (x.rangeBand() - barPadding) / 2
+    const barWidth = x.rangeBand() - barPadding
+
+    this
       .attr('x', function(d) { return x(d.letter) + barPadding / 2 })
       .attr('width', barWidth)
       .attr('y', function(d) { return y(d.frequency) + borderRadius })
@@ -105,8 +112,6 @@ export default function barchart(options) {
       .attr('rx', borderRadius)
       .attr('ry', borderRadius)
       .attr('clip-path', 'url(#graph-area-clip)')
-
-    bars.exit().remove()
   }
 
   function setData(data) {
