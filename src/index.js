@@ -19,6 +19,7 @@ const defaults = {
  */
 
 export default function barchart(options) {
+  let { barWidth, borderRadius } = Object.assign(defaults, options)
   const { target, frame, margin, data } = Object.assign(defaults, options)
   const { width, height } = chartSize(frame, margin)
   const barPadding = 0.1 * width
@@ -34,8 +35,8 @@ export default function barchart(options) {
       .attr('id', 'graph-area-clip')
     .append('rect')
       .attr('x', 0)
-      .attr('width', width)
       .attr('y', 0)
+      .attr('width', width)
       .attr('height', height)
 
   const x = d3.scale.ordinal()
@@ -88,30 +89,39 @@ export default function barchart(options) {
   }
 
   function renderBars(data) {
+    borderRadius = (x.rangeBand() - barPadding) / 2
+    barWidth = x.rangeBand() - barPadding
+
     const bars = chart.selectAll('.bar')
       .data(data, (d) => d.letter)
 
     bars.enter().append('rect')
       .attr('class', 'bar')
-
-    bars.transition().ease('linear')
-      .call(bars)
+      .call(onEnter)
+      .transition()
+      .call(onEnterTransition)
 
     bars.exit().remove()
   }
 
-  function bars() {
-    const borderRadius = (x.rangeBand() - barPadding) / 2
-    const barWidth = x.rangeBand() - barPadding
-
+  function onEnter() {
     this
+      .attr('clip-path', 'url(#graph-area-clip)')
       .attr('x', function(d) { return x(d.letter) + barPadding / 2 })
+      .attr('y', height)
       .attr('width', barWidth)
-      .attr('y', function(d) { return y(d.frequency) + borderRadius })
-      .attr('height', function(d) { return height - y(d.frequency) })
+      .attr('height', 0)
+      .style('fill-opacity', 1e-6)
       .attr('rx', borderRadius)
       .attr('ry', borderRadius)
-      .attr('clip-path', 'url(#graph-area-clip)')
+  }
+
+  function onEnterTransition() {
+    this
+      .duration(600)
+      .attr('y', function(d) { return y(d.frequency) + borderRadius })
+      .attr('height', function(d) { return height - y(d.frequency) })
+      .style('fill-opacity', 1)
   }
 
   function setData(data) {
