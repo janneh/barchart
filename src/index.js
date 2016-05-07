@@ -99,7 +99,7 @@ export default function barchart(options) {
       .attr('class', 'bar')
       .call(onEnter)
       .transition()
-      .call(onEnterTransition)
+      .call(slideIn)
 
     bars.exit().remove()
   }
@@ -107,21 +107,26 @@ export default function barchart(options) {
   function onEnter() {
     this
       .attr('clip-path', 'url(#graph-area-clip)')
-      .attr('x', function(d) { return x(d.letter) + barPadding / 2 })
-      .attr('y', height)
+      .attr('x', function(d) { return x(d.letter) + barPadding / 2 + width })
+      .attr('y', function(d) { return y(d.frequency) + borderRadius })
       .attr('width', barWidth)
-      .attr('height', 0)
-      .style('fill-opacity', 1e-6)
+      .attr('height', function(d) { return height - y(d.frequency) })
       .attr('rx', borderRadius)
       .attr('ry', borderRadius)
   }
 
-  function onEnterTransition() {
+  function growUp() {
     this
       .duration(600)
       .attr('y', function(d) { return y(d.frequency) + borderRadius })
       .attr('height', function(d) { return height - y(d.frequency) })
       .style('fill-opacity', 1)
+  }
+
+  function slideIn() {
+    this
+      .duration(800)
+      .attr('x', function(d) { return x(d.letter) + barPadding / 2 })
   }
 
   function setData(data) {
