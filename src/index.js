@@ -23,6 +23,7 @@ export default function barchart(options) {
   const { target, frame, margin, data } = Object.assign(defaults, options)
   const { width, height } = chartSize(frame, margin)
   const barPadding = 0.1 * width
+  let slideInFrom = 'left'
 
   // Create the chart
   const chart = d3.select(target).append('svg')
@@ -104,9 +105,11 @@ export default function barchart(options) {
   }
 
   function onEnter() {
+    const xOffset = barPadding / 2 + slideInDirection() * width
+
     this
       .attr('clip-path', 'url(#graph-area-clip)')
-      .attr('x', function(d) { return x(d.letter) + barPadding / 2 + width })
+      .attr('x', function(d) { return x(d.letter) + xOffset })
       .attr('y', height - 10 + borderRadius)
       .attr('width', barWidth)
       .attr('height', 10)
@@ -134,6 +137,17 @@ export default function barchart(options) {
   function slideIn() {
     this
       .attr('x', function(d) { return x(d.letter) + barPadding / 2 })
+  }
+
+  function slideInDirection() {
+    switch (slideInFrom) {
+      case 'left':
+        return 1
+      case 'right':
+        return -1
+      default:
+        return 0
+    }
   }
 
   function setData(data) {
