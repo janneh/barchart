@@ -8,7 +8,7 @@ const randomData = _ => {
   let data = []
 
   'ABCDEFGHIJKLMNOPQRSTUVWX'.split('').forEach(letter => {
-    data.push({ letter: letter, frequency: (Math.random() * .1) })
+    data.push({ x: letter, y: (Math.random() * .1) })
   })
 
   const startIndex = selectionNumber % 3 * 8

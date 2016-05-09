@@ -76,8 +76,8 @@ export default function barchart(options) {
 
   function renderAxes(data) {
     // Update domain
-    x.domain(data.map((d) => d.letter))
-    y.domain([0, d3.max(data, (d) => d.frequency)])
+    x.domain(data.map((d) => d.x))
+    y.domain([0, d3.max(data, (d) => d.y)])
 
     // Update axes
     chart.select('.x.axis')
@@ -94,7 +94,7 @@ export default function barchart(options) {
     barWidth = x.rangeBand() - barPadding
 
     const bars = chart.selectAll('.bar')
-      .data(data, (d) => d.letter)
+      .data(data, (d) => d.x)
 
     bars.enter().append('rect')
       .attr('class', 'bar')
@@ -109,7 +109,7 @@ export default function barchart(options) {
 
     this
       .attr('clip-path', 'url(#graph-area-clip)')
-      .attr('x', function(d) { return x(d.letter) + xOffset })
+      .attr('x', function(d) { return x(d.x) + xOffset })
       .attr('y', height - 10 + borderRadius)
       .attr('width', barWidth)
       .attr('height', 10)
@@ -129,14 +129,14 @@ export default function barchart(options) {
 
   function growUp() {
     this
-      .attr('y', function(d) { return y(d.frequency) + borderRadius })
-      .attr('height', function(d) { return height - y(d.frequency) })
+      .attr('y', function(d) { return y(d.y) + borderRadius })
+      .attr('height', function(d) { return height - y(d.y) })
       .style('fill-opacity', 1)
   }
 
   function slideIn() {
     this
-      .attr('x', function(d) { return x(d.letter) + barPadding / 2 })
+      .attr('x', function(d) { return x(d.x) + barPadding / 2 })
   }
 
   function slideInDirection() {
