@@ -23,6 +23,7 @@ export default function barchart(options) {
   const { target, frame, margin, data } = Object.assign(defaults, options)
   const { width, height } = chartSize(frame, margin)
   const barPadding = 0.1 * width
+  const scaleType = 'ordinal'
   let slideInFrom = 'left'
 
   // Create the chart
@@ -40,7 +41,7 @@ export default function barchart(options) {
       .attr('width', width)
       .attr('height', height)
 
-  const x = d3.scale.ordinal()
+  const x = scale()
     .rangeRoundBands([0, width], .1)
 
   const y = d3.scale.linear()
@@ -72,6 +73,17 @@ export default function barchart(options) {
     const height = frame.height - margin.top - margin.bottom
 
     return { width, height }
+  }
+
+  function scale() {
+    switch (scaleType) {
+      case 'ordinal':
+        return d3.scale.ordinal()
+      case 'linear':
+        return d3.scale.linear()
+      default:
+        return d3.scale.ordinal()
+    }
   }
 
   function renderAxes(data) {
