@@ -5,13 +5,14 @@ const defaults = {
     width: 960,
     height: 500
   },
-
   margin: {
     top: 20,
     right: 20,
     bottom: 30,
     left: 40
-  }
+  },
+  scaleType: 'ordinal',
+  slideInFrom: 'left'
 }
 
 /**
@@ -19,12 +20,11 @@ const defaults = {
  */
 
 export default function barchart(options) {
-  let { barWidth, borderRadius } = Object.assign(defaults, options)
-  const { target, frame, margin, data } = Object.assign(defaults, options)
+  const config = Object.assign(defaults, options)
+  let { barWidth, borderRadius, scaleType, slideInFrom } = config
+  const { target, frame, margin, data } = config
   const { width, height } = chartSize(frame, margin)
   const barPadding = 0.1 * width
-  const scaleType = 'ordinal'
-  let slideInFrom = 'left'
 
   // Create the chart
   const chart = d3.select(target).append('svg')
