@@ -18,6 +18,43 @@ const randomData = _ => {
   return data
 }
 
+const randomTimeData = () => {
+  return [
+    {
+      x: new Date('2016-1-1'),
+      y: (Math.random() * .1)
+    },
+    {
+      x: new Date('2016-1-2'),
+      y: (Math.random() * .1)
+    },
+    {
+      x: new Date('2016-1-3'),
+      y: (Math.random() * .1)
+    },
+    {
+      x: new Date('2016-1-4'),
+      y: (Math.random() * .1)
+    },
+    {
+      x: new Date('2016-1-5'),
+      y: (Math.random() * .1)
+    },
+    {
+      x: new Date('2016-1-6'),
+      y: (Math.random() * .1)
+    },
+    {
+      x: new Date('2016-1-7'),
+      y: (Math.random() * .1)
+    },
+    {
+      x: new Date('2016-1-8'),
+      y: (Math.random() * .1)
+    }
+  ]
+}
+
 class App extends Component {
   componentDidMount() {
     this.chart = barchart({
