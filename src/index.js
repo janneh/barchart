@@ -2,8 +2,8 @@ import d3 from 'd3'
 
 const defaults = {
   frame: {
-    width: 960,
-    height: 500
+    width: 620,
+    height: 375
   },
   margin: {
     top: 20,
